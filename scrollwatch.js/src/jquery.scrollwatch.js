@@ -1,3 +1,8 @@
+//
+// Author : Vincent Mi (miwenshu@gmail.com)
+// Web : vnzmi.com
+// License: The MIT License (MIT)
+//
 (function( $ ) {
 	//检测指定对象的滚动条 进行菜单切换
     $.fn.scrollwatch = function(options) {
