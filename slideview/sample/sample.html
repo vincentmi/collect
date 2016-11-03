@@ -1,0 +1,84 @@
+<html>
+<head>
+<title>Sliderview watch by Vincent</title>
+<script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+<script src="../src/jquery.slideview.js"></script>
+<link rel="stylesheet" type="text/css" href="./sample.css">
+<style>
+.slide1 .slide-items {
+	width:700px;
+	height:430px;
+	/*overflow: hidden;*/
+}
+
+.slide2 .slide-items {
+	width:900px;
+	height:430px;
+	/*overflow: hidden;*/
+}
+/*
+.slide1 .slide-items ul {
+	position: relative;
+	white-space: nowrap; 
+	display: inline-block;
+}
+.slide1 .slide-items li {
+	display: inline; 
+}*/
+
+</style>
+</head>
+<body>
+
+<div class="slide1 sli">
+	<div class="slide-items">
+		<ul>
+			<li><img src="imgs/1.jpg"/></li>
+			<li><img src="imgs/2.jpg"/></li>
+			<li><img src="imgs/3.jpg"/></li>
+			<li><img src="imgs/4.jpg"/></li>
+			<li><img src="imgs/5.jpg"/></li>
+		</ul>
+	</div>
+	<div class="slide-arrow">
+		<a >Prev</a>
+		<a >Next</a>
+	</div>
+
+	<div class="slide-thumb">
+	</div>
+</div>
+
+
+<div class="slide2 sli">
+	<div class="slide-items">
+		<ul>
+			<li><img src="imgs/1.jpg"/></li>
+			<li><img src="imgs/2.jpg"/></li>
+			<li><img src="imgs/3.jpg"/></li>
+			<li><img src="imgs/4.jpg"/></li>
+			<li><img src="imgs/5.jpg"/></li>
+		</ul>
+	</div>
+	<div class="slide-arrow">
+	</div>
+
+	<div class="slide-thumb">
+	</div>
+</div>
+
+<a href="javascript:$('.slide1').slideview('debug')"> DEBUG  1 </a> 
+|
+<a href="javascript:$('.slide2').slideview('debug')"> DEBUG  2 </a>
+
+</body>
+<script type="text/javascript">
+
+$(function(){
+	$('.slide1').slideview();
+	$('.slide2').slideview({defaultIndex:3});
+})
+
+</script>
+
+</html>
