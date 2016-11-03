@@ -41,8 +41,8 @@
 		</ul>
 	</div>
 	<div class="slide-arrow">
-		<a >Prev</a>
-		<a >Next</a>
+		<a   href="javascript:$('.slide1').slideview('move','prev')">Prev</a>
+		<a  href="javascript:$('.slide1').slideview('move','next')">Next</a>
 	</div>
 
 	<div class="slide-thumb">
@@ -61,22 +61,21 @@
 		</ul>
 	</div>
 	<div class="slide-arrow">
+		<a   href="javascript:$('.slide2').slideview('move','prev')">Prev</a>
+		<a  href="javascript:$('.slide2').slideview('move','next')">Next</a>
 	</div>
 
 	<div class="slide-thumb">
 	</div>
 </div>
 
-<a href="javascript:$('.slide1').slideview('debug')"> DEBUG  1 </a> 
-|
-<a href="javascript:$('.slide2').slideview('debug')"> DEBUG  2 </a>
 
 </body>
 <script type="text/javascript">
 
 $(function(){
 	$('.slide1').slideview();
-	$('.slide2').slideview({defaultIndex:3});
+	$('.slide2').slideview();
 })
 
 </script>

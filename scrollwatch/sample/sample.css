@@ -1,14 +1,21 @@
 *{margin:0;padding:0;}
-	.menu  { position:fixed;background: #eee;line-height: 30px;}
-	.menu ul {list-style: none;background: #eee;}
-	.menu li { border:1px ;width:100px;height:30px;text-align: center;cursor: pointer}
-	.menu li a {  text-decoration: none; }
-	.sec {font-size:14pt;line-height: 2em;padding:5px;}
-	.active  {
-		background: #999; 
-	 }
-	 .active li {background: #999}
-	 .first { margin-top:30px; }
-	 #box{
-	 	margin-top:50px ;border:1px solid #ccc;width:600px;height: 600px ;overflow-y:scroll;
-	 }
+.menu  { position:fixed;background: #eee;line-height: 30px;}
+.menu ul {list-style: none;background: #eee;}
+.menu li { border:1px ;width:100px;height:30px;text-align: center;cursor: pointer}
+.menu li a {  text-decoration: none; }
+.sec {font-size:14pt;line-height: 2em;padding:5px;}
+.active  {
+	background: #999; 
+ }
+ .active li {background: #999}
+ .first { margin-top:30px; }
+ #box{
+ 	margin-top:50px ;border:1px solid #ccc;width:600px;height: 600px ;overflow-y:scroll;
+ }
+
+
+ .menu2  { position:fixed;background: #eee;line-height: 30px;float:left;top:0 ;left:0;width:100%;}
+.menu2 ul {list-style: none;background: #eee;}
+.menu2 li { float:left;border:1px ;width:100px;height:30px;text-align: center;cursor: pointer}
+.menu2 li a {  text-decoration: none; }
+.sec2 {font-size:14pt;line-height: 3em;padding:5px;width:30em;}
