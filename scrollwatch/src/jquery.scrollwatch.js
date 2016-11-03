@@ -36,7 +36,7 @@
                 }
                 var target = $(that.attr(settings.target))
                 if(settings.container == document){
-                    var container =  $(document.body)
+                    var container =  $(document.documentElement);
                     var to = target.offset().top;
                 }else{
                     var container = $(settings.container)
@@ -47,7 +47,8 @@
                 if(!settings.stack){
                     to -= nav.height()
                 }
-                console.log(to,target.offset().top ,container.offset().top ,container.scrollTop());
+                to = parseInt(to)
+                //console.log(to,target.offset().top ,container.offset().top ,container.scrollTop());
                 container.animate({'scrollTop': to},500,'swing');
             })
 
