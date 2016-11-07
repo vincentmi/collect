@@ -35,12 +35,15 @@
                     return
                 }
                 var target = $(that.attr(settings.target))
+                var ua  = navigator.appName.toLowerCase();
                 if(settings.container == document){
-                    var container =  $(document.documentElement);
+                    var container = $(document.documentElement);
                     var to = target.offset().top;
+                    var doExtra = true ;
                 }else{
                     var container = $(settings.container)
                     var to = target.offset().top - container.offset().top + container.scrollTop()
+                    var doExtra = false
                 }
 
                 to = to - settings.scrollMargin;
@@ -50,6 +53,9 @@
                 to = parseInt(to)
                 //console.log(to,target.offset().top ,container.offset().top ,container.scrollTop());
                 container.animate({'scrollTop': to},500,'swing');
+                if(doExtra){
+                    $(document.body).animate({'scrollTop': to},500,'swing');
+                }
             })
 
             $(settings.container).scroll(function(){
