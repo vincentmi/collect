@@ -38,6 +38,7 @@
                 that.attr("slideview-viewport",settings.viewpoint);
                 that.attr("slideview-slide",settings.slide);
                 that.attr("slideview-slideWarp",settings.slideWarp);
+                that.attr("slideview-size",slides.length);
 
                 viewport.css({overflow:"hidden"});
 
@@ -45,7 +46,9 @@
                     whiteSpace: "nowrap" ,
                     listStyle:"none", 
                     display:"inline-block",
-                    position:"relative"}
+                    position:"relative",
+                    padding:0
+                }
                     );
 
                 slides.css({display:"inline"});
@@ -74,6 +77,7 @@
             var pos2 = slides.eq(index).offset();
 
             console.log(pos1,pos2);
+
             this.attr('slideview-index',index);
 
             $(this.attr('slideview-slideWarp'),this).animate({left:  0 - (pos2.left - pos1.left)},500,'swing');
