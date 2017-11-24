@@ -12,33 +12,65 @@ class Exporter
     const EXPORT_XML = 'xml';
 
 
-    public $dsn = 'mysql:host={host};port={port};dbname={db};charset={charset}';
+    private $dsn = 'mysql:host={host};port={port};dbname={db};charset={charset}';
     private $user = 'root';
     private $pass = 'root';
     private $dnsAttrs = [];
-    public $chunk = 1000;
-    public $export = 'csv';
+    private $chunk = 1000;
+    private $export = 'csv';
 
     private $connect = null;
 
-    public function __construct($host, $user, $pass, $options)
+    private $querys = [];
+
+    public function __construct()
     {
 
         $this->dnsAttrs = [
-            '{host}' => $host,
-            '{user}' => $user,
-            '{pass}' => $pass,
-            '{port}' => isset($options['port']) ? $options['port'] : 3306,
-            '{db}' => isset($options['db']) ? $options['db'] : 'test',
-            '{charset}' => isset($options['charset']) ? $options['charset'] : 'UTF8',
+            '{host}' => '127.0.0.1',
+            '{user}' => 'root',
+            '{pass}' => 'root',
+            '{port}' => 3306,
+            '{db}' => 'test',
+            '{charset}' => 'UTF8',
 
         ];
-        $this->dsn = strtr($this->dsn, $this->dnsAttrs);
+
+    }
+
+    public static function create(){
+        return new Exporter();
+    }
+
+    public function host($host){
+        $this->dnsAttrs['{host}'] = $host;
+        return $this;
+    }
+
+    public function port($port){
+        $this->dnsAttrs['{port}'] = $port;
+        return $this;
+    }
+
+    public function password($pass){
+        $this->dnsAttrs['{pass}'] = $pass;
+        return $this;
+    }
+
+    public function db($db){
+        $this->dnsAttrs['{db}'] = $db;
+        return $this;
+    }
+
+    public function charset($charset){
+        $this->dnsAttrs['{charset}'] = $charset;
+        return $this;
     }
 
     private function getConnection()
     {
         if ($this->connect == null) {
+            $this->dsn = strtr($this->dsn, $this->dnsAttrs);
             $this->connect = new PDO($this->dsn, $this->user, $this->pass);
             $this->connect->exec("SET NAMES UTF8");
         }
@@ -93,7 +125,7 @@ class Exporter
                 $run = false;
             } else {
 
-                echo 'export-' . count($data) . "\n";
+                echo ' ' . count($data) . " ";
                 $content = '';
                 if ($i == 0) {
                     $content .= $this->title(array_keys($data[0]));
@@ -176,13 +208,36 @@ class Exporter
             $content = substr($content,0,-1). "\n";
             return $content;
         }
+    }
+
+
+    public function perform()
+    {
+        foreach($this->querys as $index=>$q){
+            echo "Query-".$index." -> ".$q[1]."\n" ;
+            $this->queryToFile($q[0], $q[1]);
+            echo "\n";
+        }
+
 
     }
 
 
-    public function execute($sql, $file = '')
+    public function type($exportType){
+        $this->export = $exportType;
+        return $this;
+    }
+
+    public function query($sql,$file)
     {
-        $this->queryToFile($sql, $file);
+        $this->querys[] = [$sql , $file];
+        return $this;
+
+    }
+
+    public function chunk($chunkSize){
+        $this->chunk = $chunkSize;
+        return $this;
     }
 
 
