@@ -241,7 +241,7 @@ class Exporter
 
     public function query($sql,$file)
     {
-        $this->querys[] = [$sql , $file];
+        $this->querys[] = array($sql , $file);
         return $this;
 
     }
