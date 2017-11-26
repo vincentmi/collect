@@ -38,6 +38,9 @@ class Exporter
 
     }
 
+    /**
+     * @return Exporter
+     */
     public static function create(){
         return new Exporter();
     }
@@ -54,7 +57,15 @@ class Exporter
 
     public function password($pass){
         $this->dnsAttrs['{pass}'] = $pass;
+        $this->pass = $pass ;
         return $this;
+    }
+
+    public function user($user){
+        $this->dnsAttrs['{user}'] = $user ;
+        $this->user = $user ;
+        return $this;
+
     }
 
     public function db($db){
