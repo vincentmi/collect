@@ -21,12 +21,12 @@ class Exporter
 
     private $connect = null;
 
-    private $querys = [];
+    private $querys = array();
 
     public function __construct()
     {
 
-        $this->dnsAttrs = [
+        $this->dnsAttrs = array(
             '{host}' => '127.0.0.1',
             '{user}' => 'root',
             '{pass}' => 'root',
@@ -34,7 +34,7 @@ class Exporter
             '{db}' => 'test',
             '{charset}' => 'UTF8',
 
-        ];
+        );
 
     }
 
@@ -105,7 +105,7 @@ class Exporter
             $bind = $sqlinfo[1];
         } else {
             $sql = $sqlinfo;
-            $bind = [];
+            $bind = array();
         }
 
         $fp = fopen($file, 'w');
