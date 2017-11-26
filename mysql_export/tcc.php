@@ -22,7 +22,6 @@ Exporter::create()
       WHERE  a.clientId =  '.$clientId,
         'article.csv')
     ->query('SELECT * FROM gbook WHERE clientId = '.$clientId,'gbook.csv')
-    ->query('select * from model','model.csv')
     ->perform()
 
 ;
