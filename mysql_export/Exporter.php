@@ -15,7 +15,7 @@ class Exporter
     private $dsn = 'mysql:host={host};port={port};dbname={db};charset={charset}';
     private $user = 'root';
     private $pass = 'root';
-    private $dnsAttrs = [];
+    private $dnsAttrs = array();
     private $chunk = 1000;
     private $export = 'csv';
 
