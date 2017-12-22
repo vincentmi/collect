@@ -15,18 +15,18 @@ class Exporter
     private $dsn = 'mysql:host={host};port={port};dbname={db};charset={charset}';
     private $user = 'root';
     private $pass = 'root';
-    private $dnsAttrs = [];
+    private $dnsAttrs = array();
     private $chunk = 1000;
     private $export = 'csv';
 
     private $connect = null;
 
-    private $querys = [];
+    private $querys = array();
 
     public function __construct()
     {
 
-        $this->dnsAttrs = [
+        $this->dnsAttrs = array(
             '{host}' => '127.0.0.1',
             '{user}' => 'root',
             '{pass}' => 'root',
@@ -34,10 +34,13 @@ class Exporter
             '{db}' => 'test',
             '{charset}' => 'UTF8',
 
-        ];
+        );
 
     }
 
+    /**
+     * @return Exporter
+     */
     public static function create(){
         return new Exporter();
     }
@@ -54,7 +57,15 @@ class Exporter
 
     public function password($pass){
         $this->dnsAttrs['{pass}'] = $pass;
+        $this->pass = $pass ;
         return $this;
+    }
+
+    public function user($user){
+        $this->dnsAttrs['{user}'] = $user ;
+        $this->user = $user ;
+        return $this;
+
     }
 
     public function db($db){
@@ -94,7 +105,7 @@ class Exporter
             $bind = $sqlinfo[1];
         } else {
             $sql = $sqlinfo;
-            $bind = [];
+            $bind = array();
         }
 
         $fp = fopen($file, 'w');
@@ -230,7 +241,7 @@ class Exporter
 
     public function query($sql,$file)
     {
-        $this->querys[] = [$sql , $file];
+        $this->querys[] = array($sql , $file);
         return $this;
 
     }
