@@ -1,0 +1,127 @@
+#!/usr/bin/php
+<?php
+
+/*
+
+收集指定的提交中进行变更的文件
+保持目录结构拷贝出来.用于进行覆盖
+vincent@20180209
+
+*/
+
+chdir(getcwd());
+
+function runCommand($command)
+{
+	$output = null;
+	$return = null;
+	exec($command , $output , $return);
+	//print_r($output);
+	//print_r($return);
+	if($return  === 0){
+		return $output;
+	}else{
+		$output = ob_get_clean();
+		die("COMMAND ERR\n");
+	}
+}
+
+function collectFiles($commit)
+{
+	$data = runCommand('git show --stat '.$commit);
+	$line = count($data);
+	$last=explode(' ',trim($data[$line - 1 ]));
+	$fileCount = $last[0];
+
+	$files = array();
+
+	for($i = $line-2 , $min = $line - 2 - $fileCount ; $i > $min; $i--)
+	{
+		$lineContent = $data[$i];
+		$pos = strpos($lineContent,'|');
+		$file = trim(substr( $lineContent , 0 , $pos));
+		if($file){
+			$files[] = $file ;
+		}
+		
+	}
+	return $files ;
+}
+
+function showUsage(){
+	echo "Usage: git-pack [-f packfolder] <commit-hash> <commit-hash> <...>
+
+This command collect files which changed in the specific commits 
+
+[Option]
+  -f specific a folder to store changed files . we will remove this folder when copy start.
+
+by miwenshu@gmail.com
+
+";
+die(1);
+}
+
+
+if($argc < 2)
+{
+	showUsage();
+}
+
+
+
+$changed_files = array();
+
+$hashs = [];
+
+$packfolder = null;
+
+for($i = 1 ; $i< $argc ; $i++)
+{
+	if(substr($argv[$i] , 0,2) === '-f')
+	{
+		if(isset($argv[$i+1]) && $argv[$i+1] != ''  )
+		{
+			$packfolder = $argv[$i+1];
+			$i++;
+		}else{
+			showUsage();
+		}
+
+	}else{
+		$hashs[] = $argv[$i];
+	}
+	
+}
+
+
+
+foreach($hashs as $hash){
+	$files = collectFiles($hash);
+	foreach($files as $file)
+	{
+		$changed_files[$file] = $file ;
+	}
+}
+
+	
+$packfolder = $packfolder == null ?  '__git_pack' : $packfolder;
+runCommand('rm -rf ./'.$packfolder);
+echo "\033[33m- rm ./".$packfolder."\033[0m\n";
+$workdir = getcwd();
+
+$src = $workdir.DIRECTORY_SEPARATOR;
+$target = $workdir.DIRECTORY_SEPARATOR.$packfolder.DIRECTORY_SEPARATOR;
+
+foreach($changed_files as $file)
+{	
+	$target_file = $target. $file;
+	runCommand('mkdir -p '.dirname($target_file));
+	runCommand('cp '.$src .$file . " ".$target. $file);
+
+	echo '- cp ' . $file."\n";
+}
+
+echo "\033[34m".count($changed_files) ." files chanaged  in  commits :\033[0m\n";
+echo "  -" . implode("\n  -",$hashs)."\n";
+

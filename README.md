@@ -22,3 +22,12 @@ Exporter::create()
     ->perform()
 ;
 ```
+
+## git-pack
+
+收集提交中进行变化的文件,保持目录结构拷贝出来
+
+```sh
+git-pack  ac89c79fd0198b32d6a993a82aa5195da6ee0510 8557b684390ba00c07f8758ddaa95f0307cfad43 904f5a9465708a4cc60b0fde4b246400397f67d8
+
+```
