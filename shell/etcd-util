@@ -1,0 +1,23 @@
+#!/usr/bin/php
+
+<?php
+require '../HttpClient/ETCDClientV2.php';
+
+$client = new ETCDClientV2('http://127.0.0.1:2379');
+
+//print_r($client->getVersion());
+//print_r  ($client->setKey('a' , 'Hello'));
+
+
+$args = $argv;
+
+$action = $args[1];
+
+unset($args[0],$args[1]);
+
+$params = array_values($args);
+
+$result = call_user_func_array([$client , $action] , $params );
+
+print_r($result);
+
