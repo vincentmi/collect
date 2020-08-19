@@ -110,6 +110,7 @@ class RpcClient
     {
         $connection = $this->getConnection();
         $body = fgets($connection);
+        //print_r($body);
         return json_decode($body);
     }
 
@@ -168,7 +169,7 @@ function call()
         'response' => $response
     ];
 
-    echo json_encode($data,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    echo json_encode($data,JSON_UNESCAPED_UNICODE |JSON_PRETTY_PRINT);
 }
 
 function displayForm()
@@ -337,10 +338,10 @@ function displayForm()
 
   <!-- Tab panes -->
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="response"><pre id="response_content"></pre></div>
-    <div role="tabpanel" class="tab-pane" id="status"><pre id="status_content"></pre></div>
-    <div role="tabpanel" class="tab-pane" id="bin"><pre id="bin_content"></pre></div>
-    <div role="tabpanel" class="tab-pane" id="raw"><pre id="raw_content"></pre></div>
+    <div role="tabpanel" class="tab-pane active" id="response"><pre><code id="response_content"></code></pre></div>
+    <div role="tabpanel" class="tab-pane" id="status"><pre><code id="status_content"></code></pre></div>
+    <div role="tabpanel" class="tab-pane" id="bin"><pre><code id="bin_content"></code></pre></div>
+    <div role="tabpanel" class="tab-pane" id="raw"><pre><code id="raw_content"></code></pre></div>
   </div>
 
 </div>
@@ -359,6 +360,15 @@ function displayForm()
 var _url = "http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'"
 var parsed = '.$parsed.'
 
+function escapeHtml(text) {
+  return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/\'/g, "&#039;")
+      ;
+}
 
 $("#callBtn").click(function(){
     data =  $("#form").serializeArray();
@@ -378,15 +388,16 @@ $("#callBtn").click(function(){
     //console.log(data)
     $.post("?action=call" , data,function(data,status) {
         console.log(status)
+        console.log(data)
         if(status == "success")
         {
             try {
                 parsed = JSON.parse(data)
-                //console.log(parsed)
-                $("#response_content").html(JSON.stringify(parsed.response,null,6))
-                $("#bin_content").html(JSON.stringify(parsed.bin_data,null,6))
-                $("#status_content").html(JSON.stringify(status))
-                $("#raw_content").html(data)
+                console.log(parsed)
+                $("#response_content").html(escapeHtml(JSON.stringify(parsed.response,null,6)))
+                $("#bin_content").html(escapeHtml(JSON.stringify(parsed.bin_data,null,6)))
+                $("#status_content").html(escapeHtml(JSON.stringify(status)))
+                $("#raw_content").html(escapeHtml(data))
                 $("#rpctab a[href=\\"#response\\"]").tab("show")
             }catch(err) {
                 showNotice("服务器返回了错误的数据")
@@ -526,4 +537,3 @@ if($action == "") {
 }else{
     call();
 }
-
